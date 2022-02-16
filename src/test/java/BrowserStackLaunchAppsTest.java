@@ -1,4 +1,5 @@
 import io.appium.java_client.android.AndroidDriver;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterTest;
@@ -44,6 +45,7 @@ public class BrowserStackLaunchAppsTest {
         caps.setCapability("name", method.getName());
         launchDriver();
         driver.findElement(By.xpath("//android.widget.TextView[@content-desc='Accessibility']")).click();
+        Assertions.assertThat(driver.findElement(By.xpath("//*[@index='3']")).getText()).isEqualTo("Custom View");
     }
 
     @AfterTest
