@@ -1,0 +1,5 @@
+view list of devices connected : adb devices
+invoke the appium server : appium
+view the appPackage and appactivity :
+adb shell
+dumpsys window windows | grep -E mCurrentFocus
