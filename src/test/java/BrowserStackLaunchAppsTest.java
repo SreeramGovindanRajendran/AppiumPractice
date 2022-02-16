@@ -1,3 +1,4 @@
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
@@ -5,15 +6,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BrowserStackLaunchAppsTest {
-
     DesiredCapabilities caps;
     URL url;
-    AndroidDriver driver;
+    AndroidDriver<MobileElement> driver;
 
     @BeforeTest
     public void initDC() {
@@ -28,7 +29,7 @@ public class BrowserStackLaunchAppsTest {
         caps.setCapability("build", "Java Android");
         caps.setCapability("acceptSslCert", false);
         caps.setCapability("platformName", "Android");
-        caps.setCapability("new_bucketing",true);
+        caps.setCapability("new_bucketing", true);
     }
 
     public void launchDriver() {
@@ -37,11 +38,11 @@ public class BrowserStackLaunchAppsTest {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        driver = new AndroidDriver(url, caps);
+        driver = new AndroidDriver<>(url, caps);
     }
 
     @Test
-    public void launchApiDemos(Method method){
+    public void launchApiDemos(Method method) {
         caps.setCapability("name", method.getName());
         launchDriver();
         driver.findElement(By.xpath("//android.widget.TextView[@content-desc='Accessibility']")).click();
