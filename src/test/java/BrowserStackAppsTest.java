@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class BrowserStackLaunchAppsTest {
+public class BrowserStackAppsTest {
     DesiredCapabilities caps;
     URL url;
     AndroidDriver<MobileElement> driver;

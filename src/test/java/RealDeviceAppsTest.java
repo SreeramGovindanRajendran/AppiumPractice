@@ -3,7 +3,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.assertj.core.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -12,7 +11,7 @@ import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class RealDeviceLaunchAppsTest {
+public class RealDeviceAppsTest {
     DesiredCapabilities caps;
     URL url;
     AndroidDriver<MobileElement> driver;
@@ -43,19 +42,19 @@ public class RealDeviceLaunchAppsTest {
         // "Use appPackage value or . before the app activity" //
         caps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".cal.CalculatorActivity");
         launchDriver();
-        driver.findElement(By.id("android:id/button1")).click();
+        driver.findElementById("android:id/button1").click();
         try {
             Thread.sleep(7000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        MobileElement one = driver.findElement(By.id("com.miui.calculator:id/btn_1_s"));
-        MobileElement plus = driver.findElement(By.id("com.miui.calculator:id/btn_plus_s"));
-        MobileElement two = driver.findElement(By.id("com.miui.calculator:id/btn_2_s"));
+        MobileElement one = driver.findElementById("com.miui.calculator:id/btn_1_s");
+        MobileElement plus = driver.findElementById("com.miui.calculator:id/btn_plus_s");
+        MobileElement two = driver.findElementById("com.miui.calculator:id/btn_2_s");
         one.click();
         plus.click();
         two.click();
-        MobileElement result = driver.findElement(By.id("com.miui.calculator:id/result"));
+        MobileElement result = driver.findElementById("com.miui.calculator:id/result");
         Assertions.assertThat(result.getText()).isEqualTo("= 3");
     }
 
@@ -64,9 +63,26 @@ public class RealDeviceLaunchAppsTest {
         //The below capability will check and install the app if not present and launch the app
         caps.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/ApiDemos-debug.apk");
         launchDriver();
-        driver.findElement(By.xpath("//android.widget.TextView[@content-desc='Accessibility']")).click();
-        Assertions.assertThat(driver.findElement(By.xpath("//*[@index='3']")).getText()).isEqualTo("Custom View");
+        driver.findElementByXPath("//android.widget.TextView[@content-desc='Accessibility']").click();
+        Assertions.assertThat(driver.findElementByXPath("//*[@index='3']").getText()).isEqualTo("Custom View");
     }
+
+    @Test
+    public void launchSelendroidTestApp() {
+        caps.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/selendroid-test-app-0.17.0.apk");
+        launchDriver();
+        driver.findElementById("io.selendroid.testapp:id/startUserRegistration").click();
+        driver.findElementById("io.selendroid.testapp:id/inputUsername").sendKeys("Sreeram");
+        driver.findElementByAccessibilityId("email of the customer").sendKeys("123123@gmail.com");
+        driver.findElementById("io.selendroid.testapp:id/inputPassword").sendKeys("Sreeram");
+        driver.findElementById("io.selendroid.testapp:id/inputName").sendKeys("sree");
+        driver.navigate().back();
+        driver.findElementById("android:id/text1").click();
+        driver.findElementByXPath("//*[@text='C#']").click();
+        driver.findElementByXPath("//*[@text='I accept adds']").click();
+        driver.findElementById("io.selendroid.testapp:id/btnRegisterUser").click();
+    }
+
 
     @AfterTest
     public void tearDown() {
