@@ -66,6 +66,10 @@ public class RealDeviceAppsTest {
         caps.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "/ApiDemos-debug.apk");
         invokeURL();
         AndroidDriver<MobileElement> driver = new AndroidDriver<>(url, caps);
+        driver.findElementByAndroidUIAutomator("textContains(\"Graphics\")").click();
+        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Vertices\"))").click();
+        driver.navigate().back();
+        driver.navigate().back();
         driver.findElementByXPath("//android.widget.TextView[@content-desc='Accessibility']").click();
         Assertions.assertThat(driver.findElementByXPath("//*[@index='3']").getText()).isEqualTo("Custom View");
         driver.quit();
@@ -80,8 +84,10 @@ public class RealDeviceAppsTest {
         driver.findElementById("io.selendroid.testapp:id/inputUsername").sendKeys("Sreeram");
         driver.findElementByAccessibilityId("email of the customer").sendKeys("123123@gmail.com");
         driver.findElementById("io.selendroid.testapp:id/inputPassword").sendKeys("Sreeram");
+        driver.findElementById("io.selendroid.testapp:id/inputName").clear();
         driver.findElementById("io.selendroid.testapp:id/inputName").sendKeys("sree");
-        driver.navigate().back();
+        // below function available only in android driver and not in appium driver or Remote web driver
+        driver.hideKeyboard();
         driver.findElementById("android:id/text1").click();
         driver.findElementByXPath("//*[@text='C#']").click();
         driver.findElementByXPath("//*[@text='I accept adds']").click();
@@ -91,10 +97,10 @@ public class RealDeviceAppsTest {
 
     @Test
     public void launchChrome() {
-        caps.setCapability(AndroidMobileCapabilityType.BROWSER_NAME,"Chrome");
+        caps.setCapability(AndroidMobileCapabilityType.BROWSER_NAME, "Chrome");
         invokeURL();
         //Launching chrome browser will work only using WebDriver as the elements will be web elements
-        WebDriver driver = new RemoteWebDriver(url,caps);
+        WebDriver driver = new RemoteWebDriver(url, caps);
         //url of any website will add m. before it while launching in mobile browser
         driver.get("https://m.facebook.com/");  // can use only facebook.com also
         driver.findElement(By.id("m_login_email")).sendKeys("sreeram");
